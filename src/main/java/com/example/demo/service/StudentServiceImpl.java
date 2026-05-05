@@ -27,13 +27,18 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void save(Student student) {
         repo.save(student);
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void delete(Integer id) {
         repo.delete(id);
-
     }
+
+    @Override
+    public Collection<Student> findByNombre(String nombre) {
+        return repo.findByNombre(nombre);
+    }
+
+    
 
 }

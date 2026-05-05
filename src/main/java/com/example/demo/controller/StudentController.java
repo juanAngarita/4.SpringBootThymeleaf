@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entities.Student;
 import com.example.demo.service.StudentService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RequestMapping("/student")
 @Controller
@@ -23,18 +22,22 @@ public class StudentController {
     @Autowired
     private Student estudiante2;
 
+    // Conexión con el servicio, NO SALTARSE CAPAS
     @Autowired
     StudentService service;
 
+    // Logger ayuda a identificar errores de manera sencilla
+    // Mas sencillo que usar System.out
     Logger log = LoggerFactory.getLogger(StudentController.class);
 
+    // http://localhost:8080/student
     @GetMapping()
     public String mostrarEstudiantes(Model model) {
         model.addAttribute("estudiantes", service.searchAll());
         return "mostrar_todos_estudiantes";
     }
 
-    // http://localhost:8080/student/1/tareas
+    // http://localhost:8080/student/1
     @GetMapping("/{id}")
     public String mostrarEstudiantePorId(Model model, @PathVariable("id") Integer identificacion) {
 
@@ -45,23 +48,14 @@ public class StudentController {
         return "mostrar_estudiante";
     }
 
-    // http://localhost:8080/student?nombre=pedro&edad=20&genero=masculino
-    @GetMapping(params = "id")
-    public String mostrarEstudiantePorId2(Model model, @RequestParam("id") Integer identificacion) {
-
-        Student student = service.searchById(identificacion);
-
-        model.addAttribute("estudiante", student);
-
-        return "mostrar_estudiante";
-    }
-
+    // http://localhost:8080/student/delete/1
     @GetMapping("/delete/{id}")
     public String eliminarEstudiante(@PathVariable("id") Integer id) {
         service.delete(id);
         return "redirect:/student";
     }
 
+    // http://localhost:8080/student/add
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
 
@@ -72,6 +66,7 @@ public class StudentController {
         return "crear_estudiante";
     }
 
+    // http://localhost:8080/student/update/1
     @GetMapping("/update/{id}")
     public String getMethodName(@PathVariable("id") Integer id, Model model) {
         Student student = service.searchById(id);
@@ -81,6 +76,7 @@ public class StudentController {
         return "crear_estudiante";
     }
 
+    // http://localhost:8080/student/add
     @PostMapping("/add")
     public String agregarEstudiante(@ModelAttribute("estudiante") Student student) {
 
@@ -91,23 +87,13 @@ public class StudentController {
         return "redirect:/student";
     }
 
-    @GetMapping("/quemado")
-    public String mostrarInformacionQuemada(Model model) {
+    // nuevo
+    @GetMapping(params = "nombre")
+    public String buscarEstudiantesPorNombre(@RequestParam String nombre, Model model) {
+        model.addAttribute("estudiantes", service.findByNombre(nombre));
 
-        Student student = new Student(1, "Perez", "Sistemas", 20, "pepe@pe.pe",
-                "https://avatars.githubusercontent.com/u/1561955?v=4");
-
-        model.addAttribute("estudiante", student);
-
-        return "mostrar_estudiante";
+        return "mostrar_todos_estudiantes";
     }
-
-    @GetMapping("/bean")
-    public String mostrarInformacionBean(Model model) {
-
-        model.addAttribute("estudiante", estudiante2);
-
-        return "mostrar_estudiante";
-    }
+    
 
 }
