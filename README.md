@@ -9,6 +9,8 @@ Los temas que se explican son los siguientes:
 - Thymeleaf
 - Capas
 - Springboot
+- Inyección de dependencias
+- Beans
 
 ## Ramas
 Encontrará 3 ramas en el repositorio: video e final.
