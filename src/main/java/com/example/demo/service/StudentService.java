@@ -14,4 +14,6 @@ public interface StudentService {
 
     public void delete(Integer id);
 
+    public Collection<Student> findByNombre(String nombre);
+
 }

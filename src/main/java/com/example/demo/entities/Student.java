@@ -2,8 +2,9 @@ package com.example.demo.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+// lombok
+// getters, setters, toString, equals
 @Data
 @AllArgsConstructor
 public class Student {
